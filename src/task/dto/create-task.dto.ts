@@ -7,9 +7,8 @@ import {
   IsOptional,
   IsArray,
   IsEnum,
-  Matches,
-  IsUrl,
 } from 'class-validator';
+import { StartWith } from '../decorators/start-with.decorator';
 
 export enum Tags {
   WORK = 'work',
@@ -19,6 +18,7 @@ export enum Tags {
 export class CreateTaskDto {
   @IsString()
   @IsNotEmpty()
+  @StartWith('Task: ')
   @Length(2, 10)
   title: string;
 
@@ -28,20 +28,19 @@ export class CreateTaskDto {
   priority: number;
 
   @IsArray()
-  @IsNotEmpty()
   @IsEnum(Tags, { each: true })
   tags: Tags[];
 
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'Password is too weak',
-  })
-  password: string;
-
-  @IsUrl(
-    {},
-    {
-      message: 'WebSiteUrl must be a valid URL',
-    },
-  )
-  webSiteUrl: string;
+  // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  //   message: 'Password is too weak',
+  // })
+  // password: string;
+  //
+  // @IsUrl(
+  //   {},
+  //   {
+  //     message: 'WebSiteUrl must be a valid URL',
+  //   },
+  // )
+  // webSiteUrl: string;
 }
